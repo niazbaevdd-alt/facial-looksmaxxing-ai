@@ -1,0 +1,321 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#090909">
+  <title>Facial Looksmaxxing AI</title>
+
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: #090909;
+      color: #fff;
+      font-family: Arial, sans-serif;
+    }
+
+    .app {
+      max-width: 480px;
+      margin: auto;
+      padding: 25px 20px 40px;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 38px;
+    }
+
+    .logo {
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 2px;
+    }
+
+    .menu {
+      color: #999;
+      font-size: 12px;
+      letter-spacing: 1px;
+    }
+
+    .hero {
+      background: linear-gradient(145deg, #252525, #101010 65%);
+      border: 1px solid #303030;
+      border-radius: 22px;
+      padding: 27px 22px;
+      min-height: 245px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      margin-bottom: 28px;
+    }
+
+    .eyebrow {
+      font-size: 10px;
+      letter-spacing: 3px;
+      color: #aaa;
+    }
+
+    h1 {
+      font-size: 35px;
+      line-height: 1.08;
+      margin: 22px 0 12px;
+      letter-spacing: -1.5px;
+    }
+
+    .hero p {
+      color: #aaa;
+      font-size: 13px;
+      line-height: 1.6;
+      max-width: 290px;
+    }
+
+    .tag {
+      font-size: 10px;
+      letter-spacing: 2px;
+      color: #ccc;
+      margin-top: 15px;
+    }
+
+    .section-title {
+      font-size: 18px;
+      margin: 30px 0 8px;
+    }
+
+    .description {
+      color: #888;
+      font-size: 12px;
+      line-height: 1.5;
+      margin-bottom: 20px;
+    }
+
+    .upload-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .upload {
+      min-height: 125px;
+      border: 1px dashed #555;
+      border-radius: 15px;
+      background: #151515;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      cursor: pointer;
+      overflow: hidden;
+      text-align: center;
+      padding: 8px;
+      position: relative;
+    }
+
+    .upload strong {
+      font-size: 12px;
+    }
+
+    .upload span {
+      font-size: 10px;
+      color: #888;
+    }
+
+    .upload img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+      inset: 0;
+    }
+
+    .upload input {
+      display: none;
+    }
+
+    .upload .plus {
+      font-size: 25px;
+      color: #ddd;
+    }
+
+    .primary {
+      width: 100%;
+      background: #fff;
+      color: #080808;
+      border: none;
+      border-radius: 13px;
+      padding: 17px;
+      font-weight: 800;
+      font-size: 13px;
+      letter-spacing: 1px;
+      margin-top: 20px;
+      cursor: pointer;
+    }
+
+    .primary:disabled {
+      opacity: .4;
+      cursor: not-allowed;
+    }
+
+    .note {
+      text-align: center;
+      color: #777;
+      font-size: 10px;
+      line-height: 1.6;
+      margin-top: 13px;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 30px;
+    }
+
+    .feature {
+      background: #151515;
+      border: 1px solid #292929;
+      border-radius: 14px;
+      padding: 17px;
+    }
+
+    .feature strong {
+      font-size: 13px;
+    }
+
+    .feature p {
+      color: #888;
+      font-size: 11px;
+      line-height: 1.5;
+    }
+
+    footer {
+      display: flex;
+      justify-content: space-around;
+      border-top: 1px solid #292929;
+      margin-top: 35px;
+      padding-top: 20px;
+      color: #aaa;
+      font-size: 11px;
+    }
+
+    footer span {
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+  <main class="app">
+
+    <header>
+      <div class="logo">FACIAL AI.</div>
+      <div class="menu">PREMIUM ANALYSIS</div>
+    </header>
+
+    <section class="hero">
+      <div>
+        <div class="eyebrow">AI POWERED FACIAL ANALYSIS</div>
+        <h1>Discover Your<br>Facial Potential.</h1>
+        <p>
+          Advanced facial analysis across 12 key areas.
+          Understand your strengths and weaknesses.
+        </p>
+      </div>
+      <div class="tag">PRECISION · STRUCTURE · HARMONY</div>
+    </section>
+
+    <h2 class="section-title">Start your analysis</h2>
+    <p class="description">
+      Upload three clear photos of your face for a more complete analysis.
+    </p>
+
+    <section class="upload-grid">
+      <label class="upload">
+        <span class="plus">+</span>
+        <strong>Front</strong>
+        <span>Front view</span>
+        <input type="file" accept="image/*">
+      </label>
+
+      <label class="upload">
+        <span class="plus">+</span>
+        <strong>Profile</strong>
+        <span>Side view</span>
+        <input type="file" accept="image/*">
+      </label>
+
+      <label class="upload">
+        <span class="plus">+</span>
+        <strong>3/4 View</strong>
+        <span>Angled view</span>
+        <input type="file" accept="image/*">
+      </label>
+    </section>
+
+    <button class="primary" id="analyze" disabled>
+      CONTINUE
+    </button>
+
+    <p class="note">
+      Your photos will only be processed after you give consent.
+      Analysis is not a medical or scientific diagnosis.
+    </p>
+
+    <section class="features">
+      <div class="feature">
+        <strong>12 Areas</strong>
+        <p>Detailed facial structure analysis.</p>
+      </div>
+      <div class="feature">
+        <strong>AI Insights</strong>
+        <p>Personalized strengths and recommendations.</p>
+      </div>
+    </section>
+
+    <footer>
+      <span>Home</span>
+      <span>My Analyses</span>
+      <span>Profile</span>
+    </footer>
+
+  </main>
+
+  <script>
+    const tg = window.Telegram?.WebApp;
+    tg?.ready();
+    tg?.expand();
+
+    const inputs = document.querySelectorAll('input[type="file"]');
+    const button = document.getElementById('analyze');
+
+    inputs.forEach(input => {
+      input.addEventListener('change', () => {
+        const file = input.files[0];
+        if (!file) return;
+
+        const card = input.closest('.upload');
+        let preview = card.querySelector('img');
+
+        if (!preview) {
+          preview = document.createElement('img');
+          card.appendChild(preview);
+        }
+
+        preview.src = URL.createObjectURL(file);
+        button.disabled = !Array.from(inputs).every(item => item.files.length);
+      });
+    });
+
+    button.addEventListener('click', () => {
+      alert('Photo selection is ready. Backend connection will be added next.');
+    });
+  </script>
+</body>
+</html>
