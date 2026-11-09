@@ -6,44 +6,36 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#090909">
   <title>Facial Looksmaxxing AI</title>
-
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
-
   <style>
     * { box-sizing: border-box; }
-
     body {
       margin: 0;
       background: #090909;
       color: #fff;
       font-family: Arial, sans-serif;
     }
-
     .app {
       max-width: 480px;
       margin: auto;
       padding: 25px 20px 40px;
     }
-
     header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 38px;
     }
-
     .logo {
       font-size: 15px;
       font-weight: 800;
       letter-spacing: 2px;
     }
-
     .menu {
       color: #999;
       font-size: 12px;
       letter-spacing: 1px;
     }
-
     .hero {
       background: linear-gradient(145deg, #252525, #101010 65%);
       border: 1px solid #303030;
@@ -55,52 +47,44 @@
       justify-content: space-between;
       margin-bottom: 28px;
     }
-
     .eyebrow {
       font-size: 10px;
       letter-spacing: 3px;
       color: #aaa;
     }
-
     h1 {
       font-size: 35px;
       line-height: 1.08;
       margin: 22px 0 12px;
       letter-spacing: -1.5px;
     }
-
     .hero p {
       color: #aaa;
       font-size: 13px;
       line-height: 1.6;
       max-width: 290px;
     }
-
     .tag {
       font-size: 10px;
       letter-spacing: 2px;
       color: #ccc;
       margin-top: 15px;
     }
-
     .section-title {
       font-size: 18px;
       margin: 30px 0 8px;
     }
-
     .description {
       color: #888;
       font-size: 12px;
       line-height: 1.5;
       margin-bottom: 20px;
     }
-
     .upload-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 10px;
     }
-
     .upload {
       min-height: 125px;
       border: 1px dashed #555;
@@ -117,16 +101,8 @@
       padding: 8px;
       position: relative;
     }
-
-    .upload strong {
-      font-size: 12px;
-    }
-
-    .upload span {
-      font-size: 10px;
-      color: #888;
-    }
-
+    .upload strong { font-size: 12px; }
+    .upload span { font-size: 10px; color: #888; }
     .upload img {
       width: 100%;
       height: 100%;
@@ -134,16 +110,8 @@
       position: absolute;
       inset: 0;
     }
-
-    .upload input {
-      display: none;
-    }
-
-    .upload .plus {
-      font-size: 25px;
-      color: #ddd;
-    }
-
+    .upload input { display: none; }
+    .upload .plus { font-size: 25px; color: #ddd; }
     .primary {
       width: 100%;
       background: #fff;
@@ -157,12 +125,10 @@
       margin-top: 20px;
       cursor: pointer;
     }
-
     .primary:disabled {
       opacity: .4;
       cursor: not-allowed;
     }
-
     .note {
       text-align: center;
       color: #777;
@@ -170,31 +136,24 @@
       line-height: 1.6;
       margin-top: 13px;
     }
-
     .features {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 10px;
       margin-top: 30px;
     }
-
     .feature {
       background: #151515;
       border: 1px solid #292929;
       border-radius: 14px;
       padding: 17px;
     }
-
-    .feature strong {
-      font-size: 13px;
-    }
-
+    .feature strong { font-size: 13px; }
     .feature p {
       color: #888;
       font-size: 11px;
       line-height: 1.5;
     }
-
     footer {
       display: flex;
       justify-content: space-around;
@@ -204,16 +163,11 @@
       color: #aaa;
       font-size: 11px;
     }
-
-    footer span {
-      cursor: pointer;
-    }
+    footer span { cursor: pointer; }
   </style>
 </head>
-
 <body>
   <main class="app">
-
     <header>
       <div class="logo">FACIAL AI.</div>
       <div class="menu">PREMIUM ANALYSIS</div>
@@ -243,14 +197,12 @@
         <span>Front view</span>
         <input type="file" accept="image/*">
       </label>
-
       <label class="upload">
         <span class="plus">+</span>
         <strong>Profile</strong>
         <span>Side view</span>
         <input type="file" accept="image/*">
       </label>
-
       <label class="upload">
         <span class="plus">+</span>
         <strong>3/4 View</strong>
@@ -259,9 +211,7 @@
       </label>
     </section>
 
-    <button class="primary" id="analyze" disabled>
-      CONTINUE
-    </button>
+    <button class="primary" id="analyze" disabled>CONTINUE</button>
 
     <p class="note">
       Your photos will only be processed after you give consent.
@@ -284,7 +234,6 @@
       <span>My Analyses</span>
       <span>Profile</span>
     </footer>
-
   </main>
 
   <script>
