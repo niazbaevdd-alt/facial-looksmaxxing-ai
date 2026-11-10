@@ -5,6 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Анализ лица AI</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
 
 <style>
 * { box-sizing: border-box; }
@@ -81,6 +82,21 @@ h1 {
   font-size: 14px;
 }
 
+.consent {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  color: #aaa;
+  font-size: 12px;
+  line-height: 1.5;
+  text-align: left;
+  margin: 18px 0;
+}
+
+.consent input {
+  margin-top: 3px;
+}
+
 button {
   width: 100%;
   padding: 19px;
@@ -93,10 +109,36 @@ button {
   cursor: pointer;
 }
 
+button:disabled {
+  opacity: 0.5;
+  cursor: wait;
+}
+
 .note {
   color: #777;
   font-size: 12px;
   margin-top: 20px;
+}
+
+#status {
+  color: #bbb;
+  font-size: 14px;
+  line-height: 1.5;
+  margin-top: 20px;
+  white-space: pre-wrap;
+}
+
+#result {
+  display: none;
+  margin-top: 24px;
+  padding: 20px;
+  background: #111;
+  border: 1px solid #333;
+  border-radius: 16px;
+  text-align: left;
+  line-height: 1.7;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
 }
 </style>
 </head>
@@ -127,14 +169,25 @@ button {
   class="file-input"
   type="file"
   id="facePhoto"
-  accept="image/*"
+  accept="image/jpeg,image/png,image/webp"
 >
 
 </div>
 
+<label class="consent">
+<input type="checkbox" id="consent">
+<span>
+Я согласен на отправку фотографии внешнему AI-сервису для анализа.
+Понимаю, что результат является субъективной оценкой.
+</span>
+</label>
+
 <button id="analysisButton">
 НАЧАТЬ АНАЛИЗ →
 </button>
+
+<div id="status"></div>
+<div id="result"></div>
 
 <div class="note">
 12 зон лица · Персональный AI-анализ
@@ -143,30 +196,41 @@ button {
 </div>
 
 <script>
+const API_URL = "https://facial-ai-server.niazbaevdd.workers.dev/analyze";
+
+const tg = window.Telegram?.WebApp;
+if (tg) {
+  tg.ready();
+  tg.expand();
+}
+
 let selectedPhoto = null;
 
-const photoInput = document.getElementById('facePhoto');
+const photoInput = document.getElementById("facePhoto");
+const button = document.getElementById("analysisButton");
+const statusBox = document.getElementById("status");
+const resultBox = document.getElementById("result");
 
-photoInput.addEventListener('change', function() {
+photoInput.addEventListener("change", function() {
   const file = this.files[0];
 
   if (!file) return;
 
-  if (!file.type.startsWith('image/')) {
-    alert('Пожалуйста, выберите фотографию.');
-    this.value = '';
+  if (!["image/jpeg", "image/png", "image/webp"].includes(file.type)) {
+    alert("Поддерживаются только JPG, PNG и WEBP.");
+    this.value = "";
     return;
   }
 
-  if (file.size > 15 * 1024 * 1024) {
-    alert('Размер фотографии не должен превышать 15 МБ.');
-    this.value = '';
+  if (file.size > 8 * 1024 * 1024) {
+    alert("Размер фотографии не должен превышать 8 МБ.");
+    this.value = "";
     return;
   }
 
   selectedPhoto = file;
 
-  const preview = document.getElementById('preview1');
+  const preview = document.getElementById("preview1");
 
   if (preview.dataset.url) {
     URL.revokeObjectURL(preview.dataset.url);
@@ -176,24 +240,65 @@ photoInput.addEventListener('change', function() {
 
   preview.src = url;
   preview.dataset.url = url;
-  preview.style.display = 'block';
+  preview.style.display = "block";
 
-  document.getElementById('plus1').style.display = 'none';
+  document.getElementById("plus1").style.display = "none";
+  document.getElementById("uploadText").textContent =
+    "Фото загружено · Можно заменить";
 
-  document.getElementById('uploadText').textContent =
-    'Фото загружено · Можно заменить';
+  statusBox.textContent = "";
+  resultBox.style.display = "none";
 });
 
-document.getElementById('analysisButton').addEventListener('click', function() {
+button.addEventListener("click", async function() {
   if (!selectedPhoto) {
-    alert('Сначала выберите фотографию лица.');
+    alert("Сначала выберите фотографию лица.");
     return;
   }
 
-  alert(
-    'Фотография выбрана успешно!\n\n' +
-    'Следующий этап — подключение настоящего AI-анализа.'
-  );
+  if (!document.getElementById("consent").checked) {
+    alert("Подтвердите согласие на обработку фотографии.");
+    return;
+  }
+
+  if (!tg || !tg.initData) {
+    alert("Откройте приложение через Telegram, чтобы начать анализ.");
+    return;
+  }
+
+  button.disabled = true;
+  button.textContent = "АНАЛИЗИРУЕМ...";
+  statusBox.textContent = "AI анализирует фотографию. Это может занять некоторое время...";
+  resultBox.style.display = "none";
+
+  try {
+    const formData = new FormData();
+
+    formData.append("photo", selectedPhoto);
+    formData.append("initData", tg.initData);
+
+    const response = await fetch(API_URL, {
+      method: "POST",
+      body: formData
+    });
+
+    const data = await response.json();
+
+    if (!response.ok || !data.success) {
+      throw new Error(data.error || "Не удалось выполнить анализ.");
+    }
+
+    statusBox.textContent = "Анализ завершён!";
+    resultBox.textContent = data.report;
+    resultBox.style.display = "block";
+
+  } catch (error) {
+    statusBox.textContent = error.message ||
+      "Ошибка соединения с сервером. Попробуйте ещё раз.";
+  } finally {
+    button.disabled = false;
+    button.textContent = "НАЧАТЬ АНАЛИЗ →";
+  }
 });
 </script>
 
