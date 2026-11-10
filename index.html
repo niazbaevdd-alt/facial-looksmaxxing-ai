@@ -55,10 +55,11 @@ h1 {
 .upload {
   border: 1px solid #444;
   border-radius: 12px;
-  padding: 22px 8px;
+  padding: 15px 8px;
   color: #bbb;
   cursor: pointer;
   background: #111;
+  min-height: 125px;
 }
 
 .upload span {
@@ -68,6 +69,14 @@ h1 {
 }
 
 .upload input { display: none; }
+
+.preview {
+  display: none;
+  width: 100%;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 8px;
+}
 
 button {
   width: 100%;
@@ -92,44 +101,48 @@ button {
 <body>
 <div class="container">
 
-<img class="hero-image" src="hero-face.png" alt="Искусственный интеллект анализирует лицо">
+<img class="hero-image" src="hero-face.png" alt="Сканирование лица">
 
 <h1>АНАЛИЗ ЛИЦА AI</h1>
 
 <div class="subtitle">
 Узнай потенциал своей внешности.<br>
-Профессиональный анализ лица по 12 зонам
+Профессиональный анализ по 12 зонам лица
 </div>
 
 <div class="uploads">
 
 <label class="upload">
+<img class="preview" id="preview1" alt="Предпросмотр">
 ＋
 <span>Фото анфас</span>
-<input type="file" accept="image/*">
+<input type="file" accept="image/*" onchange="showPhoto(this, 'preview1')">
 </label>
 
 <label class="upload">
+<img class="preview" id="preview2" alt="Предпросмотр">
 ＋
 <span>Фото в профиль</span>
-<input type="file" accept="image/*">
+<input type="file" accept="image/*" onchange="showPhoto(this, 'preview2')">
 </label>
 
 <label class="upload">
+<img class="preview" id="preview3" alt="Предпросмотр">
 ＋
 <span>Фото под углом 3/4</span>
-<input type="file" accept="image/*">
+<input type="file" accept="image/*" onchange="showPhoto(this, 'preview3')">
 </label>
 
 <label class="upload">
+<img class="preview" id="preview4" alt="Предпросмотр">
 ＋
 <span>Дополнительное фото</span>
-<input type="file" accept="image/*">
+<input type="file" accept="image/*" onchange="showPhoto(this, 'preview4')">
 </label>
 
 </div>
 
-<button onclick="alert('Загрузка фотографий и анализ будут подключены на следующем этапе.')">
+<button onclick="startAnalysis()">
 НАЧАТЬ АНАЛИЗ →
 </button>
 
@@ -138,5 +151,41 @@ button {
 </div>
 
 </div>
+
+<script>
+function showPhoto(input, previewId) {
+  const file = input.files[0];
+  if (!file) return;
+
+  if (!file.type.startsWith('image/')) {
+    alert('Пожалуйста, выберите изображение.');
+    return;
+  }
+
+  const preview = document.getElementById(previewId);
+
+  if (preview.dataset.url) {
+    URL.revokeObjectURL(preview.dataset.url);
+  }
+
+  const url = URL.createObjectURL(file);
+  preview.src = url;
+  preview.dataset.url = url;
+  preview.style.display = 'block';
+}
+
+function startAnalysis() {
+  const files = document.querySelectorAll('input[type="file"]');
+  const selected = Array.from(files).some(input => input.files.length > 0);
+
+  if (!selected) {
+    alert('Сначала загрузите фотографию.');
+    return;
+  }
+
+  alert('Фотографии выбраны! Подключение настоящего AI-анализа будет следующим этапом.');
+}
+</script>
+
 </body>
 </html>
